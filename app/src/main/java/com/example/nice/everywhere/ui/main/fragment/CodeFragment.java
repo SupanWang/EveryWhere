@@ -2,17 +2,18 @@ package com.example.nice.everywhere.ui.main.fragment;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -26,19 +27,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.LinearLayout;
 
 import com.example.nice.everywhere.R;
+import com.example.nice.everywhere.base.Constants;
 import com.example.nice.everywhere.bean.LoginInfo;
 import com.example.nice.everywhere.net.BaseObserver;
 import com.example.nice.everywhere.net.EveryWhereService;
 import com.example.nice.everywhere.net.HttpUtils;
 import com.example.nice.everywhere.net.RxUtils;
+import com.example.nice.everywhere.ui.main.activity.LoginActivity;
 import com.example.nice.everywhere.ui.main.activity.MainActivity;
 import com.example.nice.everywhere.ui.main.activity.WebActivity;
+import com.example.nice.everywhere.util.Logger;
 import com.example.nice.everywhere.util.ToastUtil;
+import com.example.nice.everywhere.util.Tools;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -53,12 +58,84 @@ import io.reactivex.disposables.Disposable;
 public class CodeFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CodeFragment";
+    private static Button btn_send_verify;
+    private static int shu;
+    @SuppressLint("HandlerLeak")
+    public static Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 2) {
+                if (shu > 0) {
+                    --shu;
+
+                    btn_send_verify.setClickable(false);
+                    btn_send_verify.setText("" + shu);
+                }
+                if (shu == 0) {
+                    btn_send_verify.setClickable(true);
+                    btn_send_verify.setText("发送验证码");
+                }
+
+            }
+        }
+    };
+    UMAuthListener authListener = new UMAuthListener() {
+
+        /*@desc 授权开始的回调
+        @param platform 平台名称*/
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+        /*@desc 授权成功的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param data 用户资料返回*/
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+
+            for (Map.Entry<String, String> entry : data.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                Log.d(TAG, "key: " + key + "," + "value :" + value);
+            }
+            Toast.makeText(getActivity(), "成功了", Toast.LENGTH_SHORT).show();
+
+//            loginsina();
+            //只写微博的,微信的成功不了
+            if (platform == SHARE_MEDIA.SINA) {
+                loginSina(data.get("uid"));
+            }
+        }
+
+
+        /* @desc 授权失败的回调
+        @param platform 平台名称
+        @param action 行为序号，开发者用不上
+        @param t 错误原因*/
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+
+            Toast.makeText(getActivity(), "失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /*
+        @desc 授权取消的回调
+        @param platform 平台名称
+        @param action 行为序号，开发者用不上
+        */
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText(getActivity(), "取消了", Toast.LENGTH_LONG).show();
+        }
+    };
     private ImageView iv_back;
     private TextView tv_hello;
     private TextView tv_login;
     private TextView tv_coutry_code;
     private EditText et_phone;
-    private Button btn_send_verify;
     private LinearLayout ll_container;
     private View view;
     private LinearLayout ll_or;
@@ -66,11 +143,52 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
     private ImageView iv_qq;
     private ImageView iv_sina;
     private TextView tv_protocol;
+    private LinearLayout ll_oauth;
+
+    private String imgUrl = "http://tvax4.sinaimg.cn/crop.0.0.664.664.50/006rTk8Wly8fofptfjs0oj30ig0igt9k.jpg";
+    //因为登录和绑定手机号码是用的一个碎片,所以需要使用type隐藏和显示某一些view
+    //如果是0:代表登录界面;1:代表要绑定手机
+    private int mType;
 
     public CodeFragment() {
         // Required empty public constructor
     }
 
+    public static CodeFragment newIntance(int type) {
+        CodeFragment fragment = new CodeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.TYPE, type);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    //获取倒计时，时间
+    public static void setCount(int count) {
+        initCountdaojishi(count);
+    }
+
+    private static void initCountdaojishi(final int count) {
+//        Logger.println(count + "ghhjgjhgjhgjhgjhgjhgj");
+        shu = count;
+        Initdown(count);
+    }
+
+    private static void Initdown(final int count) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                for (int i = 0; i < count; i++) {
+                    try {
+                        handler.sendEmptyMessage(2);
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,6 +222,7 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
         iv_qq = (ImageView) inflate.findViewById(R.id.iv_qq);
         iv_sina = (ImageView) inflate.findViewById(R.id.iv_sina);
         tv_protocol = (TextView) inflate.findViewById(R.id.tv_protocol);
+        ll_oauth = (LinearLayout) inflate.findViewById(R.id.ll_oauth);
 
         btn_send_verify.setOnClickListener(this);
 
@@ -125,12 +244,44 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
 
         initListener();//文本框的监听
 
+        getArgumentsData();   //
+        setProtocol();    //设置协议
+        showOrHideView();  //显示隐藏View
+
+    }
+
+    /**
+     * 因为登录和绑定手机号码是用的一个碎片,所以需要使用type隐藏和显示某一些view
+     */
+    private void showOrHideView() {
+        if (mType == LoginActivity.TYPE_LOGIN) {
+            //登录
+            //View.VISIBLE 显示
+            //View.INVISIBLE 隐藏,占位置
+            //View.GONE 隐藏 不占位置
+            iv_back.setVisibility(View.INVISIBLE);
+            ll_oauth.setVisibility(View.VISIBLE);
+            ll_or.setVisibility(View.VISIBLE);
+        } else {
+            //绑定
+            iv_back.setVisibility(View.VISIBLE);
+            ll_oauth.setVisibility(View.GONE);
+            ll_or.setVisibility(View.GONE);
+        }
+    }
+
+    private void getArgumentsData() {
+        Bundle arguments = getArguments();
+        mType = arguments.getInt(Constants.TYPE);
+    }
+
+    private void setProtocol() {
         //图文混排
         SpannableStringBuilder ss = new SpannableStringBuilder(getResources().getString(R.string.agree_protocol));
 
         //设置下划线
         UnderlineSpan underlineSpan = new UnderlineSpan();
-        ss.setSpan(underlineSpan , 12 , 16 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(underlineSpan, 12, 16, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        SpannableString ss = new SpannableString(getResources().getString(R.string.agree_protocol));
 
         ClickableSpan clickableSpan = new ClickableSpan() {
@@ -140,16 +291,15 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
                 WebActivity.startAct(getActivity());
             }
         };
-        ss.setSpan(clickableSpan , 12 , 16 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan, 12, 16, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //设置前景色
         ForegroundColorSpan what = new ForegroundColorSpan(getResources().getColor(R.color.c_fa6a13));
-        ss.setSpan(what , 12 , 16 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(what, 12, 16, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         //需要设置这个ClickableSpan才会有效果
         tv_protocol.setMovementMethod(LinkMovementMethod.getInstance());
 
         tv_protocol.setText(ss);
-
     }
 
     private void initListener() {
@@ -174,12 +324,13 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 根据输入框中是否有内容,切换发送验证码的背景
+     *
      * @param s
      */
     private void switchBtnState(CharSequence s) {
-        if (TextUtils.isEmpty(s)){
+        if (TextUtils.isEmpty(s)) {
             btn_send_verify.setBackgroundResource(R.drawable.bg_btn_ea_r15);
-        }else {
+        } else {
             btn_send_verify.setBackgroundResource(R.drawable.bg_btn_fa6a13_r15);
         }
 
@@ -195,14 +346,17 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void addVerifyFragment() {
-        if (TextUtils.isEmpty(getPhone())){
+        if (TextUtils.isEmpty(getPhone())) {
             return;
         }
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         //添加到回退栈
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(R.id.frag,new CodeLodingFragment()).commit();
+        fragmentTransaction.add(R.id.frag, new CodeLodingFragment()).commit();
+
+        //关闭软键盘
+        Tools.closeKeyBoard(getActivity());
     }
 
     public String getPhone() {
@@ -215,58 +369,6 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
         umShareAPI.getPlatformInfo(getActivity(), type, authListener);
     }
 
-    UMAuthListener authListener = new UMAuthListener() {
-
-        /*@desc 授权开始的回调
-        @param platform 平台名称*/
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
-
-        }
-         /*@desc 授权成功的回调
-     * @param platform 平台名称
-     * @param action 行为序号，开发者用不上
-     * @param data 用户资料返回*/
-
-        @Override
-        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-
-            for (Map.Entry<String, String> entry : data.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                Log.d(TAG, "key: " + key + "," + "value :" + value);
-            }
-            Toast.makeText(getActivity(), "成功了", Toast.LENGTH_LONG).show();
-
-//            loginsina();
-            //只写微博的,微信的成功不了
-            if (platform == SHARE_MEDIA.SINA){
-                loginSina(data.get("uid"));
-            }
-        }
-
-
-        /* @desc 授权失败的回调
-        @param platform 平台名称
-        @param action 行为序号，开发者用不上
-        @param t 错误原因*/
-        @Override
-        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-
-            Toast.makeText(getActivity(), "失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-        /*
-        @desc 授权取消的回调
-        @param platform 平台名称
-        @param action 行为序号，开发者用不上
-        */
-        @Override
-        public void onCancel(SHARE_MEDIA platform, int action) {
-            Toast.makeText(getActivity(), "取消了", Toast.LENGTH_LONG).show();
-        }
-    };
-
     private void loginSina(String uid) {
         EveryWhereService apiserver = HttpUtils.getInstance().getApiserver(EveryWhereService.BASE_URL, EveryWhereService.class);
         apiserver.postWeiboLogin(uid)
@@ -274,16 +376,16 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
                 .subscribe(new BaseObserver<LoginInfo>() {
                     @Override
                     public void onNext(LoginInfo loginInfo) {
-                        if (loginInfo!=null){
-                            if (loginInfo.getCode() == EveryWhereService.SUCCESS_CODE){
-                                Log.d(TAG, "onNext: "+loginInfo);
+                        if (loginInfo != null) {
+                            if (loginInfo.getCode() == EveryWhereService.SUCCESS_CODE) {
+                                Log.d(TAG, "onNext: " + loginInfo);
 
                                 LoginInfo.ResultBean result = loginInfo.getResult();
                                 String photo = result.getPhoto();
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("photo" , "http://tvax4.sinaimg.cn/crop.0.0.664.664.50/006rTk8Wly8fofptfjs0oj30ig0igt9k.jpg");
+                                intent.putExtra("photo", imgUrl);
                                 startActivity(intent);
-                            }else {
+                            } else {
                                 ToastUtil.showShort(loginInfo.getDesc());
                             }
                         }

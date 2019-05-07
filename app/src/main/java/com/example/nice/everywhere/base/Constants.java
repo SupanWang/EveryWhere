@@ -27,4 +27,5 @@ public interface Constants {
     //夜间模式
     String MODE = "mode";
     String NIGHT_CURRENT_FRAG_POS = "fragment_pos";
+    String TYPE = "type";
 }

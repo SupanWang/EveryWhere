@@ -72,9 +72,10 @@
         <activity
             android:name=".ui.main.activity.WebActivity"
             android:theme="@style/NoAppTheme" />
-        <activity android:name=".ui.main.activity.MainActivity" android:theme="@style/NoAppTheme">
-
-        </activity>
+        <activity
+            android:name=".ui.main.activity.MainActivity"
+            android:theme="@style/NoAppTheme"></activity>
+        <activity android:name=".ui.main.activity.MineActivity" android:theme="@style/NoAppTheme"></activity>
     </application>
 
 </manifest>

@@ -28,19 +28,6 @@ public class LoginModel extends BaseModel {
         ApiService apiserver = HttpUtils.getInstance().getApiserver(ApiService.sBaseUrl, ApiService.class);
         final Observable<VerifyCodeBean> verifyCode = apiserver.getVerifyCode();
 
-        /*verifyCode.compose(RxUtils.<VerifyCodeBean>rxObserableSchedulerHelper())
-                .subscribe(new BaseObserver<VerifyCodeBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        mCompositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(VerifyCodeBean verifyCodeBean) {
-                        //Logger.logD(TAG,verifyCodeBean.toString());
-                        callBack.onSuccess(verifyCodeBean);
-                    }
-                });*/
         verifyCode.compose(RxUtils.<VerifyCodeBean>rxObserableSchedulerHelper())
                 .subscribe(new BaseObserver<VerifyCodeBean>() {
                     @Override

@@ -43,9 +43,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         HomeBean.ResultBean.RoutesBean routesBean = list.get(position);
-        viewHolder.txt_name.setText(routesBean.getTitle());
+        viewHolder.txt_name.setText(routesBean.getType());
         viewHolder.txt_city.setText(routesBean.getCity());
-        viewHolder.btn_price.setText(routesBean.getPrice());
+        viewHolder.btn_price.setText("￥"+routesBean.getPrice());
         viewHolder.txt_desc.setText(routesBean.getIntro());
         viewHolder.txt_num.setText(routesBean.getPrice());
 

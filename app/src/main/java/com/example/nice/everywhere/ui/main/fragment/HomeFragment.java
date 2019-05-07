@@ -20,6 +20,7 @@ import com.example.nice.everywhere.net.HomeService;
 import com.example.nice.everywhere.presenter.HomePresenter;
 import com.example.nice.everywhere.presenter.HomePresenterImpl;
 import com.example.nice.everywhere.ui.main.adapter.HomeAdapter;
+import com.example.nice.everywhere.ui.main.adapter.HomeMoreAdapter;
 import com.example.nice.everywhere.view.main.HomeView;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -45,8 +46,7 @@ public class HomeFragment extends Fragment implements HomeView {
     private RecyclerView rv;
     private ArrayList<HomeBean.ResultBean.BannersBean> bannersBeans;
     private ArrayList<HomeBean.ResultBean.RoutesBean> routesBeans;
-    private Banner banner;
-    private HomeAdapter adapter;
+    private HomeMoreAdapter adapter;
 
     private String head = "JVy0IvZamK7f7FBZLKFtoniiixKMlnnJ6dWZ6NlsY4HGsxcAA9qvFo8yacHCKHE8YAcd0UF9L59nEm7zk9AUixee0Hl8EeWA880c0ikZBW0KEYuxQy5Z9NP3BNoBi3o3Q0g";
     private int page = 1;
@@ -59,58 +59,12 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_home, container, false);
         initView(inflate);
-        initBanner();
         initData();
         return inflate;
     }
 
-    private void initBanner() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(HomeService.HomeUrl)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        HomeService homeService = retrofit.create(HomeService.class);
-        Observable<HomeBean> homeList = homeService.getHomeList(head, page);
-
-        homeList.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HomeBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(HomeBean homeBean) {
-                        bannersBeans.addAll(homeBean.getResult().getBanners());
-                        banner.setImages(bannersBeans);
-                        banner.setImageLoader(new ImageLoader() {
-                            @Override
-                            public void displayImage(Context context, Object path, ImageView imageView) {
-                                HomeBean.ResultBean.BannersBean bannerB = (HomeBean.ResultBean.BannersBean) path;
-                                Glide.with(getActivity()).load(bannerB.getImageURL()).into(imageView);
-                            }
-                        });
-                        banner.start();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
 
     private void initData() {
         HomePresenter homePresenter = new HomePresenterImpl(new HomeModelImpl(), this);
@@ -119,11 +73,10 @@ public class HomeFragment extends Fragment implements HomeView {
 
     private void initView(View inflate) {
         rv = (RecyclerView) inflate.findViewById(R.id.rv);
-        banner = (Banner) inflate.findViewById(R.id.banner);
 
         bannersBeans = new ArrayList<>();
         routesBeans = new ArrayList<>();
-        adapter = new HomeAdapter(getActivity());
+        adapter = new HomeMoreAdapter(getActivity());
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(adapter);
     }
@@ -131,7 +84,8 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void onSuccess(HomeBean homeBean) {
         routesBeans.addAll(homeBean.getResult().getRoutes());
-        adapter.update(routesBeans);
+        bannersBeans.addAll(homeBean.getResult().getBanners());
+        adapter.update(routesBeans , bannersBeans);
     }
 
     @Override

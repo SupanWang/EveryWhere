@@ -43,6 +43,7 @@
         android:layout_height="wrap_content" />
 
     <com.example.nice.everywhere.widget.IdentifyingCodeView
+        
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_83"
         android:id="@+id/icv"

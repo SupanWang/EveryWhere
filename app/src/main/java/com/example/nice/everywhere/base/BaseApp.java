@@ -18,6 +18,10 @@ public class BaseApp extends Application {
     public static int mWidthPixels;
     public static int mHeightPixels;
 
+    public static BaseApp getsBaseApp() {
+        return sBaseApp;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

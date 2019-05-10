@@ -1,7 +1,9 @@
 package com.example.nice.everywhere.ui.main.fragment;
 
 
-import android.content.Context;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,36 +12,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.example.nice.everywhere.R;
 import com.example.nice.everywhere.bean.HomeBean;
 import com.example.nice.everywhere.model.HomeModelImpl;
-import com.example.nice.everywhere.net.HomeService;
 import com.example.nice.everywhere.presenter.HomePresenter;
 import com.example.nice.everywhere.presenter.HomePresenterImpl;
-import com.example.nice.everywhere.ui.main.adapter.HomeAdapter;
+import com.example.nice.everywhere.ui.main.activity.HomeRouteActivity;
 import com.example.nice.everywhere.ui.main.adapter.HomeMoreAdapter;
 import com.example.nice.everywhere.view.main.HomeView;
-import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
+import com.example.nice.everywhere.widget.LoadingDialog;
 
 import java.util.ArrayList;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends Fragment implements HomeView, HomeMoreAdapter.OnItemClcikListener {
 
 
     private static final String TAG = "HomeFragment";
@@ -47,8 +36,8 @@ public class HomeFragment extends Fragment implements HomeView {
     private ArrayList<HomeBean.ResultBean.BannersBean> bannersBeans;
     private ArrayList<HomeBean.ResultBean.RoutesBean> routesBeans;
     private HomeMoreAdapter adapter;
-
-    private String head = "JVy0IvZamK7f7FBZLKFtoniiixKMlnnJ6dWZ6NlsY4HGsxcAA9qvFo8yacHCKHE8YAcd0UF9L59nEm7zk9AUixee0Hl8EeWA880c0ikZBW0KEYuxQy5Z9NP3BNoBi3o3Q0g";
+    private String head = "VVj1CrFBgv1MMe7GaHcjlU6VENB6yi3C9JGGX3uitHIjOe098XWwsaJDPr33S3lR" +
+            "n8J4nxh68LKq3zggTAzqCvRuwXeKFM0boMRDknAexjfp5s7xYCiipkYP0QPh7WQQ";
     private int page = 1;
 
     public HomeFragment() {
@@ -66,7 +55,10 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initData() {
+        LoadingDialog loadingDialog = new LoadingDialog(getActivity());
+        loadingDialog.create();
         HomePresenter homePresenter = new HomePresenterImpl(new HomeModelImpl(), this);
         homePresenter.getHomeList(head, page);
     }
@@ -79,17 +71,27 @@ public class HomeFragment extends Fragment implements HomeView {
         adapter = new HomeMoreAdapter(getActivity());
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setAdapter(adapter);
+
+        adapter.setOnItemClcikListener(this);
     }
 
     @Override
     public void onSuccess(HomeBean homeBean) {
         routesBeans.addAll(homeBean.getResult().getRoutes());
         bannersBeans.addAll(homeBean.getResult().getBanners());
-        adapter.update(routesBeans , bannersBeans);
+        adapter.update(routesBeans, bannersBeans);
     }
 
     @Override
     public void onFailed(String str) {
         Log.d(TAG, "onFailed: " + str);
     }
+
+    @Override
+    public void onItemClcik(HomeBean.ResultBean.RoutesBean routesBean) {
+        Intent intent = new Intent(getActivity(), HomeRouteActivity.class);
+        intent.putExtra("id" , routesBean.getId());
+        startActivity(intent);
+    }
+
 }

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.activity.HomeRouteActivity">
+
+    <ScrollView
+        android:id="@+id/scro1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_route_big"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_400"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_116"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/route_gr">
+
+                <TextView
+                    android:id="@+id/txt_route_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:gravity="center_vertical"
+                    android:text="东京"
+                    android:textColor="#FF999999"
+                    android:textSize="@dimen/sp_14" />
+
+
+                <TextView
+                    android:id="@+id/txt_route_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_route_city"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:text="银座"
+                    android:textColor="@color/c_FF373737"
+                    android:textSize="@dimen/sp_25" />
+
+
+                <TextView
+                    android:id="@+id/txt_route_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_route_name"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_11"
+                    android:text="疯狂购物买买买"
+                    android:textColor="@color/c_636363"
+                    android:textSize="@dimen/sp_18" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relv_banmi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_route_big">
+
+                <ImageView
+                    android:id="@+id/img_banmi"
+                    android:layout_width="@dimen/dp_52"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginLeft="@dimen/dp_21"
+                    android:layout_marginTop="@dimen/dp_21"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/route_banmi_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_25"
+                    android:layout_toRightOf="@id/img_banmi"
+                    android:text="半米名字"
+                    android:textColor="@color/c_373737"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/route_banmi_work"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/route_banmi_name"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:layout_toRightOf="@id/img_banmi"
+                    android:text="半米职业"
+                    android:textColor="@color/c_636363"
+                    android:textSize="@dimen/sp_11" />
+
+                <TextView
+                    android:id="@+id/route_banmi_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/route_banmi_name"
+                    android:text="北京市"
+                    android:textColor="@color/c_999"
+                    android:textSize="@dimen/sp_10" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/route_banmi_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relv_banmi"
+                android:layout_marginLeft="@dimen/dp_21"
+                android:layout_marginRight="@dimen/dp_21"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="却是我一在流行的用过滤纸泡制出的咖啡具有的醇厚美味！"
+                android:textColor="@color/c_FF636363"
+                android:textSize="@dimen/sp_14" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_below="@id/scro1"
+        android:id="@+id/rv_route"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+</RelativeLayout>

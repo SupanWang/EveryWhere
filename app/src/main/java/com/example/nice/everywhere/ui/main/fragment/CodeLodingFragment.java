@@ -67,15 +67,7 @@ public class CodeLodingFragment extends Fragment {
 
                 CodeFragment.setCount(count);//传时间，判断何时才能在发验证码
 
-                /*FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = manager.beginTransaction();
-                //添加到回退栈
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.add(R.id.frag,new CodeFragment()).commit();*/
                 FragmentManager manager = getActivity().getSupportFragmentManager();
-                //获取回退栈中碎片的数量
-        /*int backStackEntryCount = manager.getBackStackEntryCount();
-        Logger.println("回退栈Fragmnet数量:"+backStackEntryCount);*/
                 //弹栈
                 manager.popBackStack();
 

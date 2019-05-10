@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:contentPadding="8dp">
+
+
+        
+        <ImageView
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_25"
+            android:id="@+id/img_banmi_dao"
+            android:layout_width="@dimen/dp_133"
+            android:layout_height="@dimen/dp_176"
+            android:scaleType="fitXY" />
+        
+        <LinearLayout
+            android:background="@drawable/gra_tr"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_155"
+            android:layout_width="@dimen/dp_133"
+            android:layout_height="@dimen/dp_44">
+
+            <TextView
+                android:id="@+id/ban_dao_desc"
+                android:textSize="@dimen/dp_14"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:text="自由之秋"
+                android:textColor="@color/c_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/ban_dao_name"
+                android:textSize="@dimen/dp_8"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:text="自由之秋"
+                android:textColor="@color/c_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_210"
+            android:layout_width="@dimen/dp_133"
+            android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_dao_money"
+            android:textColor="@color/c_333333"
+            android:text="19元"
+            android:textSize="@dimen/dp_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_marginTop="@dimen/dp_8"
+                android:id="@+id/img_navg"
+                android:layout_width="@dimen/dp_10"
+                android:layout_height="@dimen/dp_12"
+                android:layout_below="@id/txt_dao_money"
+                android:src="@mipmap/navg" />
+
+            <TextView
+                android:id="@+id/ban_dao_place"
+                android:layout_marginLeft="@dimen/dp_3"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_toRightOf="@id/img_navg"
+                android:layout_below="@id/txt_dao_money"
+                android:textColor="@color/c_999"
+                android:text="adfgfgdsfdgsdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

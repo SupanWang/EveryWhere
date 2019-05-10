@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".base.BaseApp"
@@ -19,13 +20,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.main.activity.LoginActivity"
-            android:theme="@style/FullScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/FullScreen" />
         <!-- umeng   start -->
         <!-- 新浪 start -->
         <activity
@@ -69,13 +64,49 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- QQ  end -->
         <!-- umeng end -->
+
+
+        <!-- 上传  start -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.baidu.upload.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- 上传  end -->
         <activity
             android:name=".ui.main.activity.WebActivity"
-            android:theme="@style/NoAppTheme" />
+            android:theme="@style/No2AppTheme" />
         <activity
             android:name=".ui.main.activity.MainActivity"
-            android:theme="@style/NoAppTheme"></activity>
-        <activity android:name=".ui.main.activity.MineActivity" android:theme="@style/NoAppTheme"></activity>
+            android:theme="@style/NoAppTheme" />
+        <activity
+            android:name=".ui.main.activity.MineActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity
+            android:name=".ui.main.activity.MineMsgActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity
+            android:name=".ui.main.activity.BanmiGuanZhuActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity android:name=".ui.main.activity.HomeRouteActivity" />
+        <activity
+            android:name=".ui.main.guideactivity.SplashActivity"
+            android:theme="@style/SplashStyle">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.main.guideactivity.GuideActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity android:name=".ui.main.activity.RouteCollectActivity"></activity>
     </application>
 
 </manifest>

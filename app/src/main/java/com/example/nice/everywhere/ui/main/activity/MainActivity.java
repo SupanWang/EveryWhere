@@ -14,18 +14,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.nice.everywhere.R;
+import com.example.nice.everywhere.bean.InfoBean;
 import com.example.nice.everywhere.ui.main.adapter.TabAdapter;
 import com.example.nice.everywhere.ui.main.fragment.BanMiFragment;
 import com.example.nice.everywhere.ui.main.fragment.HomeFragment;
-import com.example.nice.everywhere.util.ToastUtil;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +49,20 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView nv;
     private String imgUrl = "http://tvax4.sinaimg.cn/crop.0.0.664.664.50/006rTk8Wly8fofptfjs0oj30ig0igt9k.jpg";
     private TextView set;
+    private TextView myCollect;
+    private TextView header_name;
+    private TextView header_sex;
+
+    private ArrayList<InfoBean.ResultBean> infoList;
+    private String userName;
+    private String gender;
+    private String description;
+    private ImageView img_header;
+    private RelativeLayout rlv_header;
+    private RelativeLayout rlv_head_kaquan;
+    private RelativeLayout rlv_head_xingcheng;
+    private RelativeLayout rlv_head_collect;
+    private RelativeLayout rlv_head_guanzhu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +72,52 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         photo = intent.getStringExtra("photo");
         initView();
+        initData();
         initTab();
-        initCeHua();
     }
 
-    private void initCeHua() {
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
     }
+
+    private void initData() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .addHeader("banmi-app-token", "VVj1CrFBgv1MMe7GaHcjlU6VENB6yi3C9JGGX3uitHIjOe098" +
+                        "XWwsaJDPr33S3lRn8J4nxh68LKq3zggTAzqCvRuwXeKFM0boMRDknAexjfp5s7xYCiipkYP0QPh7WQQ")
+                .url("https://api.banmi.com/api/3.0/account/info?username=2&descripition=3&gender=4")
+                .build();
+
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String string = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        InfoBean infoBean = gson.fromJson(string, InfoBean.class);
+                        InfoBean.ResultBean result = infoBean.getResult();
+                        userName = result.getUserName();
+                        description = result.getDescription();
+                        gender = result.getGender();
+
+                        header_name.setText(userName);
+                        header_sex.setText(description);
+                    }
+                });
+            }
+        });
+    }
+
 
     private void initTab() {
         fragments = new ArrayList<>();
@@ -95,48 +156,72 @@ public class MainActivity extends AppCompatActivity {
         tab = (TabLayout) findViewById(R.id.tab);
         dl = (DrawerLayout) findViewById(R.id.dl);
         nv = (NavigationView) findViewById(R.id.nv);
-
-        toolbar.setTitle("");
-
-        setSupportActionBar(toolbar);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         img = (ImageView) findViewById(R.id.img);
+
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         //圆形图片，需要单独写一个实体类，继承extends AppGlideModule，加注解@GlideModule
         RequestOptions options = RequestOptions.circleCropTransform();
-        Glide.with(MainActivity.this).load(photo).apply(options).into(img);
+        Glide.with(MainActivity.this).load(imgUrl).apply(options).into(img);
 
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //开启侧滑
                 dl.openDrawer(Gravity.LEFT);
-
-                //设置头布局图片更换，图片点击处理
-                View view = nv.getHeaderView(0);
-                ImageView img_header = view.findViewById(R.id.img_header);
-                set = (TextView) view.findViewById(R.id.set);
-
-                set.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ToastUtil.showShort("编辑吗？");
-                        startActivity(new Intent(MainActivity.this , MineActivity.class));
-                    }
-                });
-
-                img_header.setImageResource(R.drawable.icon_me_kaquan_banmi1);
-
-                //监听图片
-                /*img_header.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "更换完毕", Toast.LENGTH_SHORT).show();
-                    }
-                });*/
             }
         });
+
+        //设置头布局图片更换，图片点击处理
+        View view = nv.getHeaderView(0);
+        img_header = view.findViewById(R.id.img_header);
+        set = (TextView) view.findViewById(R.id.set);
+        rlv_header = (RelativeLayout)view.findViewById(R.id.rlv_header);
+        rlv_head_kaquan = (RelativeLayout)view.findViewById(R.id.rlv_head_kaquan);
+        rlv_head_xingcheng = (RelativeLayout)view.findViewById(R.id.rlv_head_xingcheng);
+        rlv_head_collect = (RelativeLayout)view.findViewById(R.id.rlv_head_collect);
+        rlv_head_guanzhu = (RelativeLayout)view.findViewById(R.id.rlv_head_guanzhu);
+        header_sex = (TextView)view.findViewById(R.id.header_sex);
+        header_name = (TextView)view.findViewById(R.id.header_name);
+
+
+        header_name.setText(userName);
+        header_sex.setText(description);
+        rlv_header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                        ToastUtil.showShort("编辑吗？");
+                Intent intent = new Intent(MainActivity.this, MineActivity.class);
+                intent.putExtra("username" , userName);
+                intent.putExtra("description" , description+"...");
+                intent.putExtra("gender",gender);
+                startActivity(intent);
+            }
+        });
+
+        myCollect = (TextView) view.findViewById(R.id.txt_collect);
+
+        rlv_head_collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , RouteCollectActivity.class));
+            }
+        });
+
+        rlv_head_guanzhu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , BanmiGuanZhuActivity.class));
+            }
+        });
+
+        RequestOptions options2 = RequestOptions.circleCropTransform();
+        Glide.with(MainActivity.this).load(imgUrl).apply(options2).into(img_header);
+//        img_header.setImageResource(R.drawable.icon_me_kaquan_banmi1);
     }
+
 
     //选项菜单
     @Override

@@ -3,7 +3,9 @@ package com.example.nice.everywhere.ui.main.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -60,6 +62,9 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "CodeFragment";
     private static Button btn_send_verify;
     private static int shu;
+
+    private boolean isSuccess = false;
+
     @SuppressLint("HandlerLeak")
     public static Handler handler = new Handler() {
         @Override
@@ -68,7 +73,6 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
             if (msg.what == 2) {
                 if (shu > 0) {
                     --shu;
-
                     btn_send_verify.setClickable(false);
                     btn_send_verify.setText("" + shu);
                 }
@@ -103,6 +107,10 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
             }
             Toast.makeText(getActivity(), "成功了", Toast.LENGTH_SHORT).show();
 
+            SharedPreferences sp = getActivity().getSharedPreferences("isSuccess", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putBoolean("isSuccess" , false);
+            edit.commit();
 //            loginsina();
             //只写微博的,微信的成功不了
             if (platform == SHARE_MEDIA.SINA) {
@@ -347,6 +355,7 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
 
     private void addVerifyFragment() {
         if (TextUtils.isEmpty(getPhone())) {
+            ToastUtil.showShort("请先输入手机号");
             return;
         }
         FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -383,7 +392,7 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
                                 LoginInfo.ResultBean result = loginInfo.getResult();
                                 String photo = result.getPhoto();
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                                intent.putExtra("photo", imgUrl);
+                                intent.putExtra("photo", photo);
                                 startActivity(intent);
                             } else {
                                 ToastUtil.showShort(loginInfo.getDesc());

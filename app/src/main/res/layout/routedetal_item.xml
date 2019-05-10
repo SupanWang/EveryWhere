@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/img_review"
+            android:layout_width="@dimen/dp_38"
+            android:layout_height="@dimen/dp_38"
+            android:layout_marginLeft="@dimen/dp_21"
+            android:layout_marginTop="@dimen/dp_21"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/route_review_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_25"
+            android:layout_toRightOf="@id/img_review"
+            android:text="半米名字"
+            android:textColor="@color/c_373737"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/route_review_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/route_review_name"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_toRightOf="@id/img_review"
+            android:text="半米职业"
+            android:textColor="@color/c_999"
+            android:textSize="@dimen/sp_10" />
+
+
+        <TextView
+            android:id="@+id/route_review_desc"
+            android:layout_toRightOf="@id/img_review"
+            android:layout_marginTop="@dimen/dp_17"
+            android:layout_below="@id/route_review_work"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="轻井泽很多漂，有机会一定要去看看。"
+            android:textColor="#FF636363"
+            android:textSize="14px"
+            />
+
+        <View
+            android:layout_toRightOf="@id/img_review"
+            android:layout_marginTop="@dimen/dp_17"
+            android:layout_below="@id/route_review_desc"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/dedede"></View>
+    </RelativeLayout>
+
+</RelativeLayout>

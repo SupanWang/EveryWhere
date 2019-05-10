@@ -44,4 +44,15 @@
     <string name="setpsw">修改密码</string>
     <string name="set_bind">绑定手机</string>
     <string name="btn_exit">退出登录</string>
+    <string name="my_photo">头像</string>
+    <string name="camera_pop_camera">打开相机</string>
+    <string name="camera_pop_album">打开相册获取</string>
+    <string name="camera_pop_cancel">取消</string>
+    <string name="man">男</string>
+    <string name="lady">女</string>
+    <string name="sex_U">保密</string>
+    <string name="txt_tool_finish">完成</string>
+    <string name="guide_route">严选当地人的私藏线路</string>
+    <string name="guide_music">智能语音实时导览</string>
+    <string name="guide_map">智能地图为你指路</string>
 </resources>

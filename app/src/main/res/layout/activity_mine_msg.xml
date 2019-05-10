@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.main.activity.MineMsgActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/txt_tool_mine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:layout_marginRight="@dimen/dp_5"
+            android:textColor="@color/c_fa6a13"
+            android:id="@+id/txt_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/txt_tool_finish"
+            android:textSize="@dimen/sp_14" />
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_4"
+        android:background="@drawable/gra_white_de" />
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/shape4"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_130">
+    
+    <EditText
+        android:maxLength="27"
+        android:background="@null"
+        android:id="@+id/txt_dialog_name"
+        android:textSize="@dimen/dp_14"
+        android:textColor="@color/c_999"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+        <EditText
+            android:background="@null"
+            android:id="@+id/txt_num"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_14"
+            android:layout_alignParentRight="true"
+            android:text="27/27"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/dp_14"
+            android:textColor="@color/c_999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</LinearLayout>

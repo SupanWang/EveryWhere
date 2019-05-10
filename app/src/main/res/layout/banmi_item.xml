@@ -8,18 +8,18 @@
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_12"
-        android:background="@color/white"
+        android:background="@drawable/shape4"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_120"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
-        app:contentPadding="8dp">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120">
 
         <ImageView
+
             android:id="@+id/img_banmi"
             android:scaleType="fitXY"
             android:src="@drawable/icon_me_bianji"
@@ -37,15 +37,15 @@
             android:textColor="@color/c_FF3333"
             android:textSize="@dimen/dp_22"
             />
-            
+
             <ImageView
                 android:id="@+id/img_banmi_heart"
+                android:layout_width="16dp"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_8"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/collect_highlight"
-                android:layout_width="@dimen/dp_20"
-                android:layout_height="@dimen/dp_18" />
+                android:src="@drawable/xinunselect" />
 
 
             <TextView

@@ -56,6 +56,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rlv_mine_head"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_50">
 
@@ -66,7 +67,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_15"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:text="@string/my_kaquan"
+                    android:text="@string/my_photo"
                     android:textSize="@dimen/sp_14" />
 
 
@@ -89,6 +90,7 @@
                 android:background="@color/dedede"></View>
 
             <RelativeLayout
+                android:id="@+id/rlv_mine_name"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_50">
 
@@ -124,6 +126,7 @@
                 android:background="@color/dedede"></View>
 
             <RelativeLayout
+                android:id="@+id/rlv_mine_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_50">
 
@@ -159,6 +162,7 @@
                 android:background="@color/dedede"></View>
 
             <RelativeLayout
+                android:id="@+id/rlv_mine_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_50">
 
@@ -247,12 +251,13 @@
 
 
     <Button
+        android:id="@+id/btn_exit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp_15"
         android:layout_marginRight="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_18"
-        android:background="@drawable/shape3"
+        android:background="@drawable/gra_exit"
         android:text="@string/btn_exit"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14" />

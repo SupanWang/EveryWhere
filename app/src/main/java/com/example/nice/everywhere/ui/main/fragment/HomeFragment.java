@@ -19,6 +19,7 @@ import com.example.nice.everywhere.model.HomeModelImpl;
 import com.example.nice.everywhere.presenter.HomePresenter;
 import com.example.nice.everywhere.presenter.HomePresenterImpl;
 import com.example.nice.everywhere.ui.main.activity.HomeRouteActivity;
+import com.example.nice.everywhere.ui.main.activity.HomeTypeDetalActivity;
 import com.example.nice.everywhere.ui.main.adapter.HomeMoreAdapter;
 import com.example.nice.everywhere.view.main.HomeView;
 import com.example.nice.everywhere.widget.LoadingDialog;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements HomeView, HomeMoreAdapter.OnItemClcikListener {
+public class HomeFragment extends Fragment implements HomeView, HomeMoreAdapter.OnItemClcikListener, HomeMoreAdapter.OnItemThemListener {
 
 
     private static final String TAG = "HomeFragment";
@@ -73,6 +74,8 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoreAdapter.
         rv.setAdapter(adapter);
 
         adapter.setOnItemClcikListener(this);
+
+        adapter.setOnItemThemListener(this);
     }
 
     @Override
@@ -90,8 +93,16 @@ public class HomeFragment extends Fragment implements HomeView, HomeMoreAdapter.
     @Override
     public void onItemClcik(HomeBean.ResultBean.RoutesBean routesBean) {
         Intent intent = new Intent(getActivity(), HomeRouteActivity.class);
-        intent.putExtra("id" , routesBean.getId());
+        intent.putExtra("id" , routesBean.getId()+"");
         startActivity(intent);
     }
 
+    @Override
+    public void onItemThem(HomeBean.ResultBean.RoutesBean routesBean) {
+        Intent intent = new Intent(getActivity(), HomeTypeDetalActivity.class);
+        intent.putExtra("type" , routesBean.getContentURL()+"?os=android");
+        intent.putExtra("title" , routesBean.getTitle());
+        Log.d(TAG, "onItemThem: "+routesBean.getTitle());
+        startActivity(intent);
+    }
 }

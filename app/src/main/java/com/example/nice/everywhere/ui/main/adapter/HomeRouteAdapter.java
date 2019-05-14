@@ -10,18 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.nice.everywhere.R;
-import com.example.nice.everywhere.bean.BanmiDaoBean;
-import com.example.nice.everywhere.bean.HomeBean;
-import com.example.nice.everywhere.util.DbUtils;
-import com.example.nice.everywhere.util.ToastUtil;
+import com.example.nice.everywhere.bean.RouteDetalBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeRouteAdapter extends RecyclerView.Adapter<HomeRouteAdapter.ViewHolder> {
 
-    private ArrayList<HomeBean.ResultBean.RoutesBean> list = new ArrayList<>();
+    private ArrayList<RouteDetalBean.ResultBean.ReviewsBean> list = new ArrayList<>();
     private Context context;
 
 
@@ -29,7 +27,7 @@ public class HomeRouteAdapter extends RecyclerView.Adapter<HomeRouteAdapter.View
         this.context = context;
     }
 
-    public void update(List<HomeBean.ResultBean.RoutesBean> list) {
+    public void update(List<RouteDetalBean.ResultBean.ReviewsBean> list) {
         this.list.clear();
         this.list.addAll(list);
         notifyDataSetChanged();
@@ -44,8 +42,14 @@ public class HomeRouteAdapter extends RecyclerView.Adapter<HomeRouteAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
-        HomeBean.ResultBean.RoutesBean routesBean = list.get(position);
+        RouteDetalBean.ResultBean.ReviewsBean reviewsBean = list.get(position);
+        viewHolder.txt_route_name.setText(reviewsBean.getUserName());
+        viewHolder.txt_route_time.setText(reviewsBean.getCreatedAt());
+        viewHolder.txt_route_desc.setText(reviewsBean.getContent());
 
+        //圆形图片，需要单独写一个实体类，继承extends AppGlideModule，加注解@GlideModule
+        RequestOptions options = RequestOptions.circleCropTransform();
+        Glide.with(context).load(reviewsBean.getUserPhoto()).apply(options).into(viewHolder.img_route);
     }
 
     @Override
@@ -55,17 +59,17 @@ public class HomeRouteAdapter extends RecyclerView.Adapter<HomeRouteAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView route_city;
-        private TextView route_name;
-        private TextView route_desc;
-        private ImageView route_img;
+        private ImageView img_route;
+        private TextView txt_route_name;
+        private TextView txt_route_time;
+        private TextView txt_route_desc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            route_city = itemView.findViewById(R.id._route_city);
-            route_name = itemView.findViewById(R.id.route_name);
-            route_desc = itemView.findViewById(R.id.route_desc);
-            route_img = itemView.findViewById(R.id.route_img);
+            img_route = itemView.findViewById(R.id.img_route);
+            txt_route_name = itemView.findViewById(R.id.txt_route_name);
+            txt_route_time = itemView.findViewById(R.id.txt_route_time);
+            txt_route_desc = itemView.findViewById(R.id.txt_route_desc);
         }
     }
 }

@@ -49,30 +49,6 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         initView();
-
-/*        preferences = getSharedPreferences("phone", Context.MODE_PRIVATE);
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                if (preferences.getBoolean("firststart", true)) {
-                    editor = preferences.edit();
-                    // 将登录标志位设置为false，下次登录时不再显示引导页面
-                    editor.putBoolean("firststart", false);
-                    editor.commit();
-                    Intent intent = new Intent();
-                    intent.setClass(GuideActivity.this,
-                            LoginActivity.class);
-                    GuideActivity.this.startActivity(intent);
-                    GuideActivity.this.finish();
-                } else {
-                    Intent intent = new Intent();
-                    intent.setClass(GuideActivity.this, LoginActivity.class);
-                    GuideActivity.this.startActivity(intent);
-                    GuideActivity.this.finish();
-                }
-            }
-        }, SPLASH_DISPLAY_LENGHT);*/
     }
 
 /*用法:

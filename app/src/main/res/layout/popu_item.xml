@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:background="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/dp_5"
         android:orientation="vertical" >
 
         <Button
-            android:textColor="@color/color_blue"
+            android:textColor="@color/white"
             android:id="@+id/btn_camera_pop_camera"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
-            android:background="@drawable/shape4"
+            android:background="@color/c_4f4f4f"
             android:text="@string/camera_pop_camera"
             android:textSize="@dimen/sp_18" />
 
         <View
-            android:layout_marginLeft="@dimen/dp_3"
-            android:layout_marginRight="@dimen/dp_3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:layout_below="@id/txt_mine_setpsw"
-            android:background="@color/dedede"></View>
+            android:background="@color/c_333333"></View>
 
         <Button
-            android:textColor="@color/color_blue"
+            android:textColor="@color/white"
             android:id="@+id/btn_camera_pop_album"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
-            android:background="@drawable/shape4"
+            android:background="@color/c_4f4f4f"
             android:text="@string/camera_pop_album"
             android:textSize="@dimen/sp_18" />
 
         <Button
-            android:textColor="@color/color_blue"
+            android:textColor="@color/white"
             android:id="@+id/btn_camera_pop_cancel"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
             android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/shape4"
+            android:background="@color/c_4f4f4f"
             android:text="@string/camera_pop_cancel"
             android:textSize="18sp" />
     </LinearLayout>

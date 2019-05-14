@@ -2,13 +2,11 @@ package com.example.nice.everywhere.ui.main.fragment;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +34,8 @@ import android.widget.Toast;
 import com.example.nice.everywhere.R;
 import com.example.nice.everywhere.base.Constants;
 import com.example.nice.everywhere.bean.LoginInfo;
+import com.example.nice.everywhere.bean.VerifyCodeBean;
+import com.example.nice.everywhere.net.ApiService;
 import com.example.nice.everywhere.net.BaseObserver;
 import com.example.nice.everywhere.net.EveryWhereService;
 import com.example.nice.everywhere.net.HttpUtils;
@@ -52,6 +52,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -61,29 +62,10 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "CodeFragment";
     private static Button btn_send_verify;
-    private static int shu;
+    private static int COUNT_DOWN_TIME = 10;
+    //验证码
+    public String mVerifyCode = "";
 
-    private boolean isSuccess = false;
-
-    @SuppressLint("HandlerLeak")
-    public static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 2) {
-                if (shu > 0) {
-                    --shu;
-                    btn_send_verify.setClickable(false);
-                    btn_send_verify.setText("" + shu);
-                }
-                if (shu == 0) {
-                    btn_send_verify.setClickable(true);
-                    btn_send_verify.setText("发送验证码");
-                }
-
-            }
-        }
-    };
     UMAuthListener authListener = new UMAuthListener() {
 
         /*@desc 授权开始的回调
@@ -109,9 +91,8 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
 
             SharedPreferences sp = getActivity().getSharedPreferences("isSuccess", Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = sp.edit();
-            edit.putBoolean("isSuccess" , false);
+            edit.putBoolean("isSuccess", false);
             edit.commit();
-//            loginsina();
             //只写微博的,微信的成功不了
             if (platform == SHARE_MEDIA.SINA) {
                 loginSina(data.get("uid"));
@@ -152,11 +133,16 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
     private ImageView iv_sina;
     private TextView tv_protocol;
     private LinearLayout ll_oauth;
-
+    private CodeLodingFragment codeLodingFragment;
     private String imgUrl = "http://tvax4.sinaimg.cn/crop.0.0.664.664.50/006rTk8Wly8fofptfjs0oj30ig0igt9k.jpg";
     //因为登录和绑定手机号码是用的一个碎片,所以需要使用type隐藏和显示某一些view
-    //如果是0:代表登录界面;1:代表要绑定手机
     private int mType;
+    //如果是0:代表登录界面;1:代表要绑定手机
+    private boolean isSuccess = false;
+    private int mTime = COUNT_DOWN_TIME;
+    private Handler mHandler;
+    private String data;
+
 
     public CodeFragment() {
         // Required empty public constructor
@@ -170,38 +156,9 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-    //获取倒计时，时间
-    public static void setCount(int count) {
-        initCountdaojishi(count);
-    }
-
-    private static void initCountdaojishi(final int count) {
-//        Logger.println(count + "ghhjgjhgjhgjhgjhgjhgj");
-        shu = count;
-        Initdown(count);
-    }
-
-    private static void Initdown(final int count) {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                for (int i = 0; i < count; i++) {
-                    try {
-                        handler.sendEmptyMessage(2);
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_code, container, false);
         initPer();
         initView(inflate);
@@ -290,7 +247,6 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
         //设置下划线
         UnderlineSpan underlineSpan = new UnderlineSpan();
         ss.setSpan(underlineSpan, 12, 16, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        SpannableString ss = new SpannableString(getResources().getString(R.string.agree_protocol));
 
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
@@ -348,9 +304,81 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_send_verify:
+                getVerifyCode();
+                if (mTime == COUNT_DOWN_TIME) {
+                    countDown();
+                }
                 addVerifyFragment();
                 break;
         }
+    }
+
+    private void time() {
+        //避免多次执行倒计时
+        if (mTime > 0 && mTime < COUNT_DOWN_TIME) {
+            return;
+        }
+        getVerifyCode();
+    }
+
+    /*
+    倒计时，如果执行中，不要在调用
+     */
+    public void countDown() {
+        if (mHandler == null) {
+            mHandler = new Handler();
+        }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //避免倒计时变成负值
+                if (mTime <= 0) {
+                    mTime = COUNT_DOWN_TIME;
+                    return;
+                }
+                mTime--;
+                if (codeLodingFragment != null) {
+                    codeLodingFragment.setCountDownTime(mTime);
+                }
+                countDown();
+            }
+        }, 1000);
+    }
+
+    private void getVerifyCode() {
+        if (mTime > 0 && mTime < COUNT_DOWN_TIME) {
+            //倒计时中
+            return;
+        }
+        //获取验证码
+        getVertify();
+    }
+
+    private void getVertify() {
+        ApiService apiserver = HttpUtils.getInstance().getApiserver(ApiService.sBaseUrl, ApiService.class);
+        final Observable<VerifyCodeBean> verifyCode = apiserver.getVerifyCode();
+        verifyCode.compose(RxUtils.<VerifyCodeBean>rxObserableSchedulerHelper())
+                .subscribe(new BaseObserver<VerifyCodeBean>() {
+                    @Override
+                    public void error(String msg) {
+
+                    }
+
+                    @Override
+                    protected void subscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(VerifyCodeBean verifyCodeBean) {
+                        data = verifyCodeBean.getData();
+                        Logger.println(data);
+                        if (!TextUtils.isEmpty(data)) {
+                            mVerifyCode = data;
+                            codeLodingFragment.setCode(data);
+                        }
+                    }
+                });
     }
 
     private void addVerifyFragment() {
@@ -362,7 +390,8 @@ public class CodeFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         //添加到回退栈
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(R.id.frag, new CodeLodingFragment()).commit();
+        codeLodingFragment = CodeLodingFragment.newInstance(mVerifyCode);
+        fragmentTransaction.add(R.id.frag, codeLodingFragment).commit();
 
         //关闭软键盘
         Tools.closeKeyBoard(getActivity());

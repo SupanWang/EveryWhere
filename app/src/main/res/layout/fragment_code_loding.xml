@@ -43,18 +43,17 @@
         android:layout_height="wrap_content" />
 
     <com.example.nice.everywhere.widget.IdentifyingCodeView
-        
+        android:id="@+id/icv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_56"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_83"
-        android:id="@+id/icv"
-        app:icv_et_number="4"
-        app:icv_et_width="@dimen/dp_44"
         app:icv_et_divider_drawable="@drawable/divider_icv"
+        app:icv_et_height="@dimen/dp_56"
+        app:icv_et_number="4"
         app:icv_et_text_color="@color/c_636363"
         app:icv_et_text_size="@dimen/sp_20"
-        app:icv_et_height="@dimen/dp_56"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_56"></com.example.nice.everywhere.widget.IdentifyingCodeView>
+        app:icv_et_width="@dimen/dp_44"></com.example.nice.everywhere.widget.IdentifyingCodeView>
 
     <TextView
         android:text="@string/wait_please"

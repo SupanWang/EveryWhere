@@ -45,7 +45,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_8"
-                android:src="@drawable/xinunselect" />
+                android:src="@mipmap/follow_unselected" />
 
 
             <TextView

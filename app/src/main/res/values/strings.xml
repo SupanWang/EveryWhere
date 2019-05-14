@@ -16,7 +16,7 @@
     <string name="send_verify">发送验证码</string>
     <string name="or">or</string>
     <string name="agree_protocol">登录或注册即同意到处旅行用户协议</string>
-    <string name="send_again">重新发送(60s)</string>
+    <string name="send_again">重新发送</string>
     <string name="input_verify">请输入验证码</string>
     <string name="wait_please">请稍后...</string>
     <string name="message">消息</string>
@@ -45,8 +45,8 @@
     <string name="set_bind">绑定手机</string>
     <string name="btn_exit">退出登录</string>
     <string name="my_photo">头像</string>
-    <string name="camera_pop_camera">打开相机</string>
-    <string name="camera_pop_album">打开相册获取</string>
+    <string name="camera_pop_camera">拍照</string>
+    <string name="camera_pop_album">从手机相册选择</string>
     <string name="camera_pop_cancel">取消</string>
     <string name="man">男</string>
     <string name="lady">女</string>
@@ -55,4 +55,14 @@
     <string name="guide_route">严选当地人的私藏线路</string>
     <string name="guide_music">智能语音实时导览</string>
     <string name="guide_map">智能地图为你指路</string>
+    <string name="txt_tool_head">个人头像</string>
+    <string name="share">分享</string>
+    <string name="collects">收藏</string>
+    <string name="Okcollects">已收藏</string>
+    <string name="cost">开始线路</string>
+    <string name="details">查看全部评价</string>
+    <string name="check_route">预选线路</string>
+    <string name="price">¥30.00</string>
+    <string name="txt_banmi_detal">伴米详情</string>
+    <string name="txt_tool_trip">旅行专题</string>
 </resources>

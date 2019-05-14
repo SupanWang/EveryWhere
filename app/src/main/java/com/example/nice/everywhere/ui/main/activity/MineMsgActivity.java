@@ -1,26 +1,24 @@
 package com.example.nice.everywhere.ui.main.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.icu.text.IDNA;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.nice.everywhere.R;
-import com.example.nice.everywhere.bean.InfoBean;
 import com.example.nice.everywhere.bean.UpDateBean;
 import com.example.nice.everywhere.net.BaseObserver;
 import com.example.nice.everywhere.net.RxUtils;
 import com.example.nice.everywhere.net.UserService;
-import com.example.nice.everywhere.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -42,6 +40,7 @@ public class MineMsgActivity extends AppCompatActivity {
     private String name;
     private Intent intent;
     private int type;
+    private RelativeLayout rlv_update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +96,19 @@ public class MineMsgActivity extends AppCompatActivity {
             }
         });
 
+/*
+        rlv_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txt_dialog_name.requestFocus();
+                txt_dialog_name.setFocusable( true );
+                txt_dialog_name.performClick();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(txt_dialog_name, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });*/
         int length = name.length();
-        txt_num.setText("27/27");
+        txt_num.setText(27-length+"/27");
 
         //设置EditText的光标默认在尾部
         txt_dialog_name.setSelection(txt_dialog_name.getText().length());
@@ -111,7 +121,7 @@ public class MineMsgActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txt_num.setText(27-(s.length()) + "/27");
+                txt_num.setText(27 - (s.length()) + "/27");
 //                txt_dialog_name.setSelection(s.toString().length());
             }
 
@@ -121,6 +131,7 @@ public class MineMsgActivity extends AppCompatActivity {
             }
         });
 
+        rlv_update = (RelativeLayout) findViewById(R.id.rlv_update);
     }
 
     private void updateDesc(final String dialogName) {
@@ -150,7 +161,6 @@ public class MineMsgActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     private void upDataName(String dialogName) {

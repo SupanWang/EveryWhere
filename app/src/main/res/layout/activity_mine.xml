@@ -114,6 +114,7 @@
                     android:layout_marginRight="@dimen/dp_15"
                     android:layout_marginTop="@dimen/dp_12"
                     android:text="@string/header_name"
+                    android:maxLength="15"
                     android:textColor="@color/c_a9a9a9"
                     android:textSize="@dimen/sp_14" />
             </RelativeLayout>
@@ -185,6 +186,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginRight="@dimen/dp_15"
                     android:layout_marginTop="@dimen/dp_12"
+                    android:maxLength="17"
                     android:text="@string/header_miaoshu"
                     android:textColor="@color/c_a9a9a9"
                     android:textSize="@dimen/sp_14" />

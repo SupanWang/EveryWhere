@@ -78,6 +78,7 @@
         </provider>
 
         <!-- 上传  end -->
+
         <activity
             android:name=".ui.main.activity.WebActivity"
             android:theme="@style/No2AppTheme" />
@@ -93,7 +94,9 @@
         <activity
             android:name=".ui.main.activity.BanmiGuanZhuActivity"
             android:theme="@style/No2AppTheme" />
-        <activity android:name=".ui.main.activity.HomeRouteActivity" />
+        <activity
+            android:name=".ui.main.activity.HomeRouteActivity"
+            android:theme="@style/No2AppTheme" />
         <activity
             android:name=".ui.main.guideactivity.SplashActivity"
             android:theme="@style/SplashStyle">
@@ -106,7 +109,19 @@
         <activity
             android:name=".ui.main.guideactivity.GuideActivity"
             android:theme="@style/No2AppTheme" />
-        <activity android:name=".ui.main.activity.RouteCollectActivity"></activity>
+        <activity
+            android:name=".ui.main.activity.RouteCollectActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity
+            android:name=".ui.main.activity.UpdateHeadActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity
+            android:name=".ui.main.activity.BanMiDetailActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity
+            android:name=".ui.main.activity.HomeTypeDetalActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity android:name=".ui.main.activity.HomeTypeActivity" android:theme="@style/No2AppTheme"></activity>
     </application>
 
 </manifest>

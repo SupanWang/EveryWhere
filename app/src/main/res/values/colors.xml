@@ -22,6 +22,7 @@
     <color name="c_fa6a13">#fa6a13</color>
     <color name="c_fa6a132">#faa616</color>
     <color name="c_373737">#373737</color>
+    <color name="c_4f4f4f">#4f4f4f</color>
     <color name="c_636363">#636363</color>
     <color name="c_c8c8c8">#c8c8c8</color>
     <color name="c_fefefe">#fefefe</color>
@@ -33,4 +34,5 @@
     <color name="c_FF3333">#ff333333</color>
     <color name="c_0x30000000">#00300000</color>
     <color name="c_78dpff">#78d9ff</color>
+    <color name="c_EAEAEA">#EAEAEA</color>
 </resources>

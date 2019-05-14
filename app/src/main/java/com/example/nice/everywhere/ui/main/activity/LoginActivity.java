@@ -25,6 +25,7 @@ import butterknife.BindView;
 
 //5ccb18824ca357d28d0000cf   AppKey
 public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> implements LoginView {
+    public static final String TAG = "loginFragment";
     @BindView(R.id.frag)
     FrameLayout frag;
     private FragmentManager manager;
@@ -70,7 +71,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
 
         FragmentManager manager = getSupportFragmentManager();
         CodeFragment fragment = CodeFragment.newIntance(mType);
-        manager.beginTransaction().add(R.id.frag, fragment).commit();
+        manager.beginTransaction().add(R.id.frag, fragment , TAG).commit();
 
 //        FragmentTransaction transaction = manager.beginTransaction();
 //        transaction.add(R.id.frag , fragments.get(0));

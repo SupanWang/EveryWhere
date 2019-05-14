@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("username" , userName);
                 intent.putExtra("description" , description+"...");
                 intent.putExtra("gender",gender);
+//                intent.putExtra("photo" , photo);
                 startActivity(intent);
             }
         });

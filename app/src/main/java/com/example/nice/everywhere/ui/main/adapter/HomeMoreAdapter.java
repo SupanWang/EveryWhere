@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.nice.everywhere.R;
@@ -31,6 +30,8 @@ public class HomeMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context context;
     //    private HomeBean.ResultBean.RoutesBean routesBean;
     private OnItemClcikListener onItemClcikListener;
+    private HomeBean.ResultBean.RoutesBean typebean;
+
 
     public HomeMoreAdapter(Context context) {
         this.context = context;
@@ -90,9 +91,10 @@ public class HomeMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             rightViewHolder.txt_city.setText(routesBean.getCity());
             rightViewHolder.btn_price.setText("￥" + routesBean.getPrice());
             rightViewHolder.txt_desc.setText(routesBean.getIntro());
+            rightViewHolder.txt_like.setText(routesBean.getPurchasedTimes()+"人感兴趣");
 
 
-            RoundedCorners roundedCorners = new RoundedCorners(10);//数字为圆角度数
+            RoundedCorners roundedCorners = new RoundedCorners(15);//数字为圆角度数
             RequestOptions coverRequestOptions = new RequestOptions()
                     .transforms(roundedCorners)
                     .placeholder(R.drawable.zhanweitu_home_kapian)   //占位图
@@ -116,18 +118,25 @@ public class HomeMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 index -= 1;
             }
             TypeViewHolder typeViewHolder = (TypeViewHolder) viewHolder;
-            HomeBean.ResultBean.RoutesBean typebean = list.get(index);
+            typebean = list.get(index);
 
-            RoundedCorners cornes = new RoundedCorners(10);//数字为圆角度数
-            RequestOptions options = new RequestOptions()
+            RoundedCorners cornes = new RoundedCorners(15);//数字为圆角度数
+            final RequestOptions options = new RequestOptions()
                     .transforms(cornes)
                     .placeholder(R.drawable.zhanweitu_xianlu_jingdian)   //占位图
                     .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
                     .skipMemoryCache(true);//不做内存缓存
 
             Glide.with(context).load(typebean.getCardURL()).apply(options).into(typeViewHolder.img_type);
-//            Glide.with(context).load(url).placeholder(R.mipmap.place).into(iv);
-//            ImageLoader.setImage(context,list.get(index).getCardURL(),holder3.image3,R.mipmap.zhanweitu_home_kapian_hdpi);
+
+            typeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemThemListener!=null){
+                       onItemThemListener.onItemThem(typebean);
+                    }
+                }
+            });
         }
     }
 
@@ -142,12 +151,6 @@ public class HomeMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        /*if (position == 0) {
-            return 1;
-        }else {
-            return 2;
-        }*/
-
         if (position == 0 && bannersBeans.size() > 0) {
             return 0;
         } else {
@@ -197,7 +200,7 @@ public class HomeMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView txt_city;
         private Button btn_price;
         private TextView txt_desc;
-        //        private TextView txt_num;
+        private TextView txt_like;
         private ImageView img_big;
 
 
@@ -208,8 +211,18 @@ public class HomeMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             txt_city = itemView.findViewById(R.id.txt_city);
             btn_price = itemView.findViewById(R.id.btn_price);
             txt_desc = itemView.findViewById(R.id.txt_desc);
-//            txt_num = itemView.findViewById(R.id.txt_num);
+            txt_like = itemView.findViewById(R.id.txt_like);
         }
+    }
+
+    private OnItemThemListener onItemThemListener;
+
+    public void setOnItemThemListener(OnItemThemListener onItemThemListener) {
+        this.onItemThemListener = onItemThemListener;
+    }
+
+    public interface OnItemThemListener{
+        void onItemThem( HomeBean.ResultBean.RoutesBean routesBean);
     }
 
 }

@@ -27,6 +27,8 @@
             android:layout_marginTop="@dimen/dp_25"
             android:layout_toRightOf="@id/img_header"
             android:text="@string/header_name"
+            android:maxLength="7"
+            android:ellipsize="end"
             android:textSize="@dimen/sp_22" />
 
         <TextView
@@ -39,6 +41,8 @@
             android:layout_toRightOf="@id/img_header"
             android:text="@string/header_miaoshu"
             android:textColor="@color/c_FF999999"
+            android:maxLength="15"
+            android:ellipsize="end"
             android:textSize="@dimen/dp_11" />
 
 

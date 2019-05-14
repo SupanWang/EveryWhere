@@ -16,7 +16,7 @@
         android:minHeight="?attr/actionBarSize">
 
         <TextView
-            android:text="@string/my_collect"
+            android:text="@string/my_guanzhu"
             android:id="@+id/txt_tool_mine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -45,9 +45,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeRouteActivity extends AppCompatActivity implements RouteView, View.OnClickListener {
 
-    private ArrayList<RouteDetalBean.ResultBean.RouteBean> routeBeans;
-    private ArrayList<RouteDetalBean.ResultBean.BanmiBean> banmiBeans;
-    private ArrayList<RouteDetalBean.ResultBean.ReviewsBean> reviewsBeans;
     private TextView txt_route_city;
     private TextView txt_route_name;
     private TextView txt_route_desc;
@@ -76,6 +73,9 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
     private Button mBtn_route;
     private Button mBtn_price;
     private ScrollView scroll;
+    private ArrayList<RouteDetalBean.ResultBean.RouteBean> routeBeans;
+    private ArrayList<RouteDetalBean.ResultBean.BanmiBean> banmiBeans;
+    private ArrayList<RouteDetalBean.ResultBean.ReviewsBean> reviewsBeans;
 
 
     private RouteDetalBean.ResultBean.RouteBean route;
@@ -85,7 +85,46 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
     private FloatingActionButton floatbutton;
     private boolean isCollected;
     private Button mBtn_Yicollect;
+    private String routeID;
+    private UMShareListener umShareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
 
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(HomeRouteActivity.this, "成功了", Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(HomeRouteActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(HomeRouteActivity.this, "取消了", Toast.LENGTH_LONG).show();
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +132,7 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
         setContentView(R.layout.activity_home_route);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
+
         initView();
         initData();
     }
@@ -196,7 +236,9 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
                 .diskCacheStrategy(DiskCacheStrategy.ALL)//不做磁盘缓存
                 .skipMemoryCache(true);//不做内存缓存
 
-        Glide.with(this).load(route.getCardURL()).apply(coverRequestOptions).into(img_big_home);
+        if (route.getCardURL()!=null) {
+            Glide.with(this).load(route.getCardURL()).apply(coverRequestOptions).into(img_big_home);
+        }
 
         //伴米
         RequestOptions options = RequestOptions.circleCropTransform();
@@ -257,26 +299,31 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
                 collectRoute();//收藏线路
                 break;
             case R.id.mBtn_Yicollect:
-               if (isCollected) {
-                   mBtn_collect.setVisibility(View.VISIBLE);
-                   mBtn_Yicollect.setVisibility(View.GONE);
-               }else {
-                   mBtn_Yicollect.setVisibility(View.VISIBLE);
-                   mBtn_collect.setVisibility(View.GONE);
-               }
+                if (isCollected) {
+                    mBtn_collect.setVisibility(View.VISIBLE);
+                    mBtn_Yicollect.setVisibility(View.GONE);
+                } else {
+                    mBtn_Yicollect.setVisibility(View.VISIBLE);
+                    mBtn_collect.setVisibility(View.GONE);
+                }
                 collectRoute();//收藏线路
                 break;
             case R.id.mBtn_route:
-            break;
+                break;
             case R.id.mBtn_price:
-            break;
-            case R.id.floatbutton:
-            break;
+                break;
+            case R.id.txt_pingjia:
+                if (route!=null) {
+                    Intent intent = new Intent(HomeRouteActivity.this, DiscussActivity.class);
+                    intent.putExtra("routeId", route.getId() + "");
+                    startActivity(intent);
+                }
+                break;
         }
     }
 
     private void shareBorad() {
-        UMImage thumb =  new UMImage(this, route.getShareImageWechat());
+        UMImage thumb = new UMImage(this, route.getShareImageWechat());
         //
         thumb.compressStyle = UMImage.CompressStyle.SCALE;//大小压缩，默认为大小压缩，
         new ShareAction(HomeRouteActivity.this).withText(route.getShareContent())
@@ -284,46 +331,6 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
                 setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
                 .setCallback(umShareListener).open();
     }
-
-    private UMShareListener umShareListener = new UMShareListener() {
-        /**
-         * @descrption 分享开始的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
-
-        }
-
-        /**
-         * @descrption 分享成功的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(HomeRouteActivity.this,"成功了",Toast.LENGTH_LONG).show();
-        }
-
-        /**
-         * @descrption 分享失败的回调
-         * @param platform 平台类型
-         * @param t 错误原因
-         */
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(HomeRouteActivity.this,"失败"+t.getMessage(),Toast.LENGTH_LONG).show();
-        }
-
-        /**
-         * @descrption 分享取消的回调
-         * @param platform 平台类型
-         */
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(HomeRouteActivity.this,"取消了",Toast.LENGTH_LONG).show();
-
-        }
-    };
 
     private void collectRoute() {
         if (isCollected) {

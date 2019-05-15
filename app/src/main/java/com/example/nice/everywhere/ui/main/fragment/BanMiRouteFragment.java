@@ -72,7 +72,12 @@ public class BanMiRouteFragment extends Fragment implements BanMiRouteView {
         routesBeans = new ArrayList<>();
 
         routeAdapter = new BanmiRouteAdapter(getActivity());
-        mRlv_route.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRlv_route.setLayoutManager(new LinearLayoutManager(getActivity()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         mRlv_route.setAdapter(routeAdapter);
     }
 

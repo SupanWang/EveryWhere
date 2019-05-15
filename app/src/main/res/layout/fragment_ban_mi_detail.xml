@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.main.fragment.BanMiDetailFragment">
 
+<!--
+    <View
+        android:id="@+id/view_dian1"
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_7"
+        android:layout_marginTop="@dimen/dp_3"
+        android:background="#FFFA6A13" />
+
+    <View
+        android:layout_marginTop="@dimen/dp_15"
+        android:id="@+id/view_line1"
+        android:layout_width="@dimen/dp_2"
+        android:layout_height="@dimen/dp_160"
+        android:layout_below="@+id/txt_state_time"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:background="#FFFA6A13" />
+
+    <View
+        android:id="@+id/view_dian2"
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_8"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/dp_7"
+        android:layout_marginTop="208dp"
+        android:background="#FFFA6A13" />
+
+    <View
+        android:id="@+id/view_line2"
+        android:layout_width="@dimen/dp_2"
+        android:layout_height="@dimen/dp_290"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:background="#FFFA6A13" />-->
+
+
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_8"
         android:id="@+id/rlv_dong"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+</RelativeLayout>

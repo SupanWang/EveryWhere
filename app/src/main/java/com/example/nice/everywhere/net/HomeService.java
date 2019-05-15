@@ -1,6 +1,7 @@
 package com.example.nice.everywhere.net;
 
 import com.example.nice.everywhere.bean.CollectQueryBean;
+import com.example.nice.everywhere.bean.DiscussBean;
 import com.example.nice.everywhere.bean.HomeBean;
 import com.example.nice.everywhere.bean.RouteCollectBean;
 import com.example.nice.everywhere.bean.RouteDetalBean;
@@ -65,6 +66,12 @@ public interface HomeService {
     @GET("content/bundles")
     @Headers("banmi-app-token:VVj1CrFBgv1MMe7GaHcjlU6VENB6yi3C9JGGX3uitHIjOe098XWwsaJDPr33S3lRn8J4nxh68LKq3zggTAzqCvRuwXeKFM0boMRDknAexjfp5s7xYCiipkYP0QPh7WQQ")
     Observable<RouteTypeBean> getRouteType();
+
+
+    //线路详情--全部评价
+    @GET("content/routes/{routeId}/reviews")
+    @Headers("banmi-app-token:VVj1CrFBgv1MMe7GaHcjlU6VENB6yi3C9JGGX3uitHIjOe098XWwsaJDPr33S3lRn8J4nxh68LKq3zggTAzqCvRuwXeKFM0boMRDknAexjfp5s7xYCiipkYP0QPh7WQQ")
+    Observable<DiscussBean> getDiscuss(@Path("routeId") String routeId , @Query("page") int page);
 
 
 }

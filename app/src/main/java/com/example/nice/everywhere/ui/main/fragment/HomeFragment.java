@@ -18,6 +18,7 @@ import com.example.nice.everywhere.bean.HomeBean;
 import com.example.nice.everywhere.model.HomeModelImpl;
 import com.example.nice.everywhere.presenter.HomePresenter;
 import com.example.nice.everywhere.presenter.HomePresenterImpl;
+import com.example.nice.everywhere.ui.main.activity.DiscussActivity;
 import com.example.nice.everywhere.ui.main.activity.HomeRouteActivity;
 import com.example.nice.everywhere.ui.main.activity.HomeTypeDetalActivity;
 import com.example.nice.everywhere.ui.main.adapter.HomeMoreAdapter;

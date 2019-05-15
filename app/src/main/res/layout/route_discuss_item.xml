@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:src="@drawable/zhanweitu_xianlu_jingdian"
+        android:layout_marginLeft="@dimen/dp_21"
+        android:layout_marginTop="@dimen/dp_15"
+        android:id="@+id/img_discuss"
+        android:layout_width="@dimen/dp_38"
+        android:layout_height="@dimen/dp_38" />
+
+    <TextView
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:id="@+id/txt_dis_name"
+        android:layout_toRightOf="@id/img_discuss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="海子"
+        android:textColor="@color/c_FF999999"
+        android:textSize="@dimen/sp_14"
+        />
+
+    <TextView
+        android:layout_marginRight="@dimen/dp_8"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_22"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:id="@+id/txt_dis_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2月前"
+        android:textColor="@color/c_FF636363"
+        android:textSize="@dimen/sp_12"
+        />
+
+    <TextView
+        android:id="@+id/txt_dis_content"
+        android:layout_below="@id/img_discuss"
+        android:layout_marginLeft="@dimen/dp_21"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_height="wrap_content"
+        android:text="想在那边找人一起逛逛"
+        android:textColor="@color/c_FF3333"
+        android:textSize="@dimen/sp_14"
+        />
+
+    <View
+        android:layout_below="@id/txt_dis_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_5"
+        android:layout_marginTop="10dp"
+        android:background="@color/c_FFE7E7E7"/>
+</RelativeLayout>

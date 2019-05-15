@@ -370,7 +370,7 @@
                 android:layout_below="@id/scroll"
                 android:gravity="center"
                 android:text="@string/details"
-                android:textColor="@color/c_999"
+                android:textColor="@color/c_fa6a132"
                 android:textSize="@dimen/sp_14" />
 
             <RelativeLayout

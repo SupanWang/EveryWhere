@@ -1,6 +1,7 @@
 package com.example.nice.everywhere.ui.main.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -116,21 +117,25 @@ public class CodeLodingFragment extends Fragment {
 
                 return false;
             }
-
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onTextChanged(String s) {
+                if (s!=null) {
 
+//                    icv.setBackgroundColor(R.color.dedede);
+                }
                 autoLogin();
             }
         });
 
         icv.setInputCompleteListener(new IdentifyingCodeView.InputCompleteListener() {
+
             @Override
             public void inputComplete() {
-                String textContent = icv.getTextContent();
-                if (!textContent.isEmpty()) {
-                    icv.setBackgroundResource(R.color.dedede);
-                }
+               /* String textContent = icv.getTextContent();
+                if (textContent!=null) {
+                    icv.setBackgroundColor(R.color.dedede);
+                }*/
             }
 
             @Override

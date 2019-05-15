@@ -1,19 +1,16 @@
 package com.example.nice.everywhere.ui.main.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -24,12 +21,9 @@ import com.example.nice.everywhere.bean.BanMiBean;
 import com.example.nice.everywhere.ui.main.adapter.TabAdapter;
 import com.example.nice.everywhere.ui.main.fragment.BanMiDetailFragment;
 import com.example.nice.everywhere.ui.main.fragment.BanMiRouteFragment;
+import com.example.nice.everywhere.widget.NoScrollViewPager;
+import com.example.nice.everywhere.widget.WrapContentHeightViewPager;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class BanMiDetailActivity extends AppCompatActivity {
@@ -46,14 +40,15 @@ public class BanMiDetailActivity extends AppCompatActivity {
     private TextView txt_banmi_city;
     private TextView txt_banmi_occupation;
     private TabLayout tab;
-    private ViewPager vp;
-    private ScrollView scoll;
     private ArrayList<Fragment> fragments;
     private TabAdapter adapter;
     private BanMiBean.ResultBean.BanmiBean banmiBean;
     private TextView txt_banmi_desc;
     private TextView txt_banmi_guan;
     private LinearLayout ll;
+    private NestedScrollView scoll;
+    private int toolBarPositionY;
+    private NoScrollViewPager vp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,17 +103,19 @@ public class BanMiDetailActivity extends AppCompatActivity {
         txt_banmi_city = (TextView) findViewById(R.id.txt_banmi_city);
         txt_banmi_occupation = (TextView) findViewById(R.id.txt_banmi_occupation);
         tab = (TabLayout) findViewById(R.id.tab);
-        vp = (ViewPager) findViewById(R.id.vp);
-        scoll = (ScrollView) findViewById(R.id.scoll);
         txt_banmi_desc = (TextView) findViewById(R.id.txt_banmi_desc);
         txt_banmi_guan = (TextView) findViewById(R.id.txt_banmi_guan);
         ll = (LinearLayout) findViewById(R.id.ll);
+        scoll = (NestedScrollView) findViewById(R.id.scoll);
+        vp = (NoScrollViewPager) findViewById(R.id.vp);
 
         toolbar_update.setTitle("");
         setSupportActionBar(toolbar_update);
 
+
         initData();
         initBack();
+
 
     }
 
@@ -158,8 +155,8 @@ public class BanMiDetailActivity extends AppCompatActivity {
 
     }
 
-    //宿主activity中的getTitles()方法
-    public String getTitles(){
-        return banmiBean.getId()+"";
+    //  TODO  宿主activity中的getTitles()方法
+    public String getTitles() {
+        return banmiBean.getId() + "";
     }
 }

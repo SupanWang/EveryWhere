@@ -121,7 +121,10 @@
         <activity
             android:name=".ui.main.activity.HomeTypeDetalActivity"
             android:theme="@style/No2AppTheme" />
-        <activity android:name=".ui.main.activity.HomeTypeActivity" android:theme="@style/No2AppTheme"></activity>
+        <activity
+            android:name=".ui.main.activity.HomeTypeActivity"
+            android:theme="@style/No2AppTheme" />
+        <activity android:name=".ui.main.activity.DiscussActivity" android:theme="@style/No2AppTheme"></activity>
     </application>
 
 </manifest>

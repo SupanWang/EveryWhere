@@ -21,6 +21,8 @@ import com.example.nice.everywhere.util.Logger;
 import com.example.nice.everywhere.view.main.BanmiView;
 import com.example.nice.everywhere.widget.LoadingDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,21 @@ public class BanMiFragment extends Fragment implements BanmiView, BanmiAdapter.O
 
 
         adapter.setOnItemClickListener(this);
+
+        srfl.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                ++page;
+                initData();
+            }
+
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                list.clear();
+                initData();
+            }
+        });
     }
 
     @Override
@@ -76,6 +93,9 @@ public class BanMiFragment extends Fragment implements BanmiView, BanmiAdapter.O
         List<BanMiBean.ResultBean.BanmiBean> banmi = banMiBean.getResult().getBanmi();
         list.addAll(banmi);
         adapter.update(list);
+        srfl.finishLoadmore();
+        srfl.finishRefresh();
+
     }
 
     @Override
@@ -86,7 +106,6 @@ public class BanMiFragment extends Fragment implements BanmiView, BanmiAdapter.O
     @Override
     public void onItemClick(BanMiBean.ResultBean.BanmiBean banmiBean) {
         Intent intent = new Intent(getActivity(), BanMiDetailActivity.class);
-//        BanMiBean banMiBean = new BanMiBean();
         intent.putExtra("banmiBean" ,banmiBean);
         startActivity(intent);
     }

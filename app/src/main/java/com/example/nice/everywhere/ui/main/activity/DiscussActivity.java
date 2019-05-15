@@ -67,6 +67,8 @@ public class DiscussActivity extends AppCompatActivity implements RouteDisView {
         String b = "";
         String c = "";
 
+        int a = 2;
+        int b = 3;
         img_banmi_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

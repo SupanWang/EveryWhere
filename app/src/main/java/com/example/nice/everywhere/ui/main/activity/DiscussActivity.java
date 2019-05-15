@@ -61,14 +61,7 @@ public class DiscussActivity extends AppCompatActivity implements RouteDisView {
         view = (View) findViewById(R.id.view);
         mRlv_dis = (RecyclerView) findViewById(R.id.mRlv_dis);
         smRl = (SmartRefreshLayout) findViewById(R.id.smRl);
-
-
-        String a = "";
-        String b = "";
-        String c = "";
-
-        int a = 2;
-        int b = 3;
+        
         
         img_banmi_back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -111,3 +111,4 @@ public class DiscussActivity extends AppCompatActivity implements RouteDisView {
         Logger.println(str + "MainFailed");
     }
 }
+

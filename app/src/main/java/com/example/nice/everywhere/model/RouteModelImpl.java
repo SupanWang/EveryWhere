@@ -4,7 +4,6 @@ import com.example.nice.everywhere.bean.RouteDetalBean;
 import com.example.nice.everywhere.callback.RouteCallBack;
 import com.example.nice.everywhere.net.HomeService;
 
-import org.greenrobot.greendao.annotation.Id;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;

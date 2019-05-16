@@ -82,7 +82,7 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
     private RouteDetalBean.ResultBean.BanmiBean banmi;
     private List<RouteDetalBean.ResultBean.ReviewsBean> reviews;
     private String id;
-    private FloatingActionButton floatbutton;
+//    private FloatingActionButton floatbutton;
     private boolean isCollected;
     private Button mBtn_Yicollect;
     private String routeID;
@@ -201,14 +201,14 @@ public class HomeRouteActivity extends AppCompatActivity implements RouteView, V
         scroll.setOnClickListener(this);
         mBtn_Yicollect = (Button) findViewById(R.id.mBtn_Yicollect);
         mBtn_Yicollect.setOnClickListener(this);
-        floatbutton = (FloatingActionButton) findViewById(R.id.floatbutton);
+//        floatbutton = (FloatingActionButton) findViewById(R.id.floatbutton);
 
-        floatbutton.setOnClickListener(new View.OnClickListener() {
+/*        floatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
         list();
     }
 

@@ -125,6 +125,11 @@
             android:name=".ui.main.activity.HomeTypeActivity"
             android:theme="@style/No2AppTheme" />
         <activity android:name=".ui.main.activity.DiscussActivity" android:theme="@style/No2AppTheme"></activity>
+
+        <meta-data
+            android:name="channel"
+            android:value="${CHANNEL_VALUE}"/>
+
     </application>
 
 </manifest>

@@ -96,7 +96,7 @@
                         android:textColor="@color/c_FF373737"
                         android:textSize="@dimen/sp_25" />
 
-                    <android.support.design.widget.FloatingActionButton
+                  <!--  <android.support.design.widget.FloatingActionButton
                         android:id="@+id/floatbutton"
                         android:layout_width="@dimen/dp_25"
                         android:layout_height="@dimen/dp_25"
@@ -108,7 +108,7 @@
                         android:src="@mipmap/close"
                         app:borderWidth="@dimen/dp_0"
                         app:elevation="@dimen/dp_6"
-                        app:pressedTranslationZ="@dimen/dp_12" />
+                        app:pressedTranslationZ="@dimen/dp_12" />-->
                     <!--app:rippleColor="#0097a7" -->
 
                     <TextView

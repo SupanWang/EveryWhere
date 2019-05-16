@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao' // apply plugin   最上边
+
 
 android {
     compileSdkVersion 28
@@ -13,15 +13,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    greendao {
-        schemaVersion 1  // 数据库的版本号
-        daoPackage 'com.example.nice.everywhere.dao'  // 包名
-        targetGenDir 'src/main/java' // 存放的目录地址
     }
 
     signingConfigs {
@@ -38,7 +32,29 @@ android {
             keyPassword "android"
         }
     }
+
+
+    productFlavors {
+        //渠道的渠道号
+        xiaomi {}
+        qh360 {}
+        baidu {}
+        wandoujia {}
+        huawei {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [CHANNEL_VALUE: name]
+    }
+    //多维度打包或者叫版本差异化打包,这里用不到,名字自己定义就好
+    flavorDimensions "every"
 }
+
+// 获取当前系统时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -67,10 +83,6 @@ dependencies {
     //recyclerview
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
-    //GreenDao
-    implementation 'org.greenrobot:greendao:3.2.0'
-    implementation 'org.greenrobot:greendao-generator:3.2.0'
-
     //glide
     implementation('com.github.bumptech.glide:glide:4.8.0') {
         exclude group: "com.android.support"
@@ -79,9 +91,6 @@ dependencies {
 
     //design
     implementation 'com.android.support:design:28.0.0'
-
-    //xrecyclerview
-    implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
 
     //banner
     implementation 'com.youth.banner:banner:1.4.10'
@@ -102,12 +111,6 @@ dependencies {
 
     //SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
-
-    //搜索框
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-
-    //悬浮按钮
-    implementation 'com.github.clans:fab:1.6.4'
 
     //图片缩放
     implementation 'com.bm.photoview:library:1.4.1'

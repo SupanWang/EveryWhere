@@ -97,7 +97,7 @@
   -keep public class * extends android.support.v4.app.Fragment
 
   ## 自定义控件
-  -keep class com.everywhere.trip.widget.**{*;}
+  -keep class com.example.nice.everywhere.widget.**{*;}
 
 
   #忽略警告
@@ -197,7 +197,7 @@
 
 
 # 保留实体类和成员不被混淆
--keep public class com.everywhere.trip.bean.** {
+-keep public class com.example.nice.everywhere.bean.** {
     *;
 }
 
